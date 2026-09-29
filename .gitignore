@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+smartclinic.db
+*.db-journal
+.DS_Store
