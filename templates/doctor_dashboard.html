@@ -1,0 +1,27 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; <b>Today's Schedule &mdash; {{ slot_date }}</b></div>
+<div class="grid2">
+  <div class="card">
+    <h2>Booked appointments today &mdash; live from the database</h2>
+    {% if appointments %}
+    <table>
+      <tr><th>Time</th><th>Patient</th></tr>
+      {% for a in appointments %}
+      <tr class="clickable">
+        <td>{{ a.slot_time }}</td>
+        <td><a href="{{ url_for('patient_record', patient_id=a.patient_id) }}">{{ a.patient_name }}</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p style="font-size:12px;color:#8a97a4;">No bookings yet &mdash; book one as the patient1 account, then come back here.</p>
+    {% endif %}
+    <div class="notice" style="margin-top:12px;">Click a patient's name to open their real record and write a real prescription.</div>
+  </div>
+  <div class="card">
+    <h2>Quick actions</h2>
+    <a class="btn btn-primary wfull" style="display:block; text-align:center; margin-bottom:10px; text-decoration:none;" href="{{ url_for('patient_record', patient_id=wilson_id) }}">Open J. Wilson's record</a>
+  </div>
+</div>
+{% endblock %}

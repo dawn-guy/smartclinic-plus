@@ -1,0 +1,30 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; <b>Patient Record &mdash; {{ patient.name }}</b></div>
+<div class="grid2">
+  <div class="card">
+    <h2>Patient record (FR-07)</h2>
+    <table>
+      <tr><td>Allergies</td><td><b>{{ patient.allergies or 'None recorded' }}</b></td></tr>
+    </table>
+    <div class="notice" style="margin-top:12px;">Role-based access (NFR-01): only signed-in clinicians can reach this page &mdash; try opening this URL in a private window while signed out.</div>
+    <div class="footer-actions">
+      <form method="post" action="{{ url_for('add_note', patient_id=patient.id) }}" style="display:flex; gap:8px; width:100%;">
+        <input name="note" placeholder="Add a consultation note..." style="margin-bottom:0;">
+        <button class="btn btn-secondary" type="submit">Add Note</button>
+      </form>
+    </div>
+    <a class="btn btn-primary" style="display:inline-block; margin-top:12px; text-decoration:none;" href="{{ url_for('new_prescription', patient_id=patient.id) }}">New Prescription</a>
+  </div>
+  <div class="card">
+    <h2>Consultation notes</h2>
+    {% if notes %}
+      {% for n in notes %}
+      <div class="notice" style="margin-bottom:8px;">{{ n.created_at }} &mdash; {{ n.note }}</div>
+      {% endfor %}
+    {% else %}
+      <p style="font-size:12px;color:#8a97a4;">No notes yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="login-wrap">
+  <div class="loginbox">
+    <div class="logo">Smart<span>Clinic+</span></div>
+    <div class="sub">Sign in to your clinic account</div>
+    {% if error %}<div class="err">{{ error }}</div>{% endif %}
+    <div class="demo-accounts">
+      <b>Demo accounts</b> (all real, checked against the database):<br>
+      patient1 / patient123 &middot; doctor1 / doctor123<br>
+      manager1 / manager123 &middot; staff1 / staff123
+    </div>
+    <form method="post">
+      <label>Username</label>
+      <input name="username" value="{{ request.form.get('username', '') }}" autocomplete="username">
+      <label>Password</label>
+      <input type="password" name="password" autocomplete="current-password">
+      <button class="btn btn-primary wfull" type="submit">Sign In &rarr;</button>
+    </form>
+    <div class="role-note">Role-based access (NFR-01): your role is looked up server-side from the users table &mdash; the dashboard you land on is not chosen by the browser.</div>
+  </div>
+</div>
+{% endblock %}

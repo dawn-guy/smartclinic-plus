@@ -1,0 +1,38 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; Patient Records &nbsp;&#8250;&nbsp; {{ patient.name }} &nbsp;&#8250;&nbsp; <b>New Prescription</b></div>
+<div class="grid2">
+  <div class="card">
+    <h2>Prescription details (FR-05)</h2>
+    {% if conflict %}
+    <div class="danger">&#9888; Allergy conflict: {{ patient.name }} has a recorded allergy to <b>{{ patient.allergies }}</b>. The server rejected this prescription &mdash; it was never written to the database.</div>
+    {% endif %}
+    <form method="post">
+      <label>Medication</label>
+      <input name="medication" value="{{ request.form.get('medication', '') }}" placeholder="e.g. Metformin 500mg">
+      <label>Dosage instructions</label>
+      <input name="dosage" value="{{ request.form.get('dosage', '1 tablet, twice daily, after meals') }}">
+      <label>Duration</label>
+      <input name="duration" value="{{ request.form.get('duration', '30 days') }}">
+      <div class="notice">Recorded allergy on file for this patient: <b>{{ patient.allergies or 'none' }}</b>. Submitting a conflicting medication is checked and blocked on the server, not just in the browser &mdash; try disabling JavaScript and submitting "Penicillin" anyway.</div>
+      <div class="footer-actions">
+        <a class="btn btn-secondary" href="{{ url_for('doctor_dashboard') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Review &amp; Send &rarr;</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Prescription history &mdash; this patient</h2>
+    {% if history %}
+    <table>
+      <tr><th>Date</th><th>Medication</th></tr>
+      {% for h in history %}
+      <tr><td>{{ h.created_at[:10] }}</td><td>{{ h.medication }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p style="font-size:12px;color:#8a97a4;">No prescriptions yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; <b>Staff Tasks</b></div>
+<div class="card">
+  <h2>Prescriptions to route to pharmacy &mdash; live from the database</h2>
+  {% if prescriptions %}
+  <table>
+    <tr><th>Date</th><th>Patient</th><th>Medication</th></tr>
+    {% for p in prescriptions %}
+    <tr><td>{{ p.created_at[:10] }}</td><td>{{ p.patient_name }}</td><td>{{ p.medication }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p style="font-size:12px;color:#8a97a4;">No prescriptions on file yet.</p>
+  {% endif %}
+  <div class="notice" style="margin-top:14px;">This list is generated automatically from the prescriptions table &mdash; nothing here is re-typed by staff.</div>
+</div>
+{% endblock %}

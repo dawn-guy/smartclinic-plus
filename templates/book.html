@@ -1,0 +1,36 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; <b>Book an Appointment</b></div>
+<div class="grid2">
+  <div class="card">
+    <h2>Available time slots &mdash; {{ doctor_name }}, {{ slot_date }}</h2>
+    <div class="slot-grid">
+      {% for slot in slots %}
+        <div class="slot {{ 'booked' if slot.status == 'booked' else 'open' }}">
+          {% if slot.status == 'open' %}
+          <form method="post" action="{{ url_for('book_slot', slot_id=slot.id) }}">
+            <button class="slot-btn" type="submit">{{ slot.slot_time }}</button>
+          </form>
+          {% else %}
+            {{ slot.slot_time }} &middot; booked
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="notice">This grid is read live from the <code>slots</code> table on every page load. Booking a slot runs inside a real database transaction that locks the row first (NFR-02) &mdash; open two browser tabs and try booking the same slot in both to see the second one rejected.</div>
+  </div>
+  <div class="card">
+    <h2>Your upcoming appointments</h2>
+    {% if appointments %}
+    <table>
+      <tr><th>Date</th><th>Time</th><th>Doctor</th></tr>
+      {% for a in appointments %}
+      <tr><td>{{ a.slot_date }}</td><td>{{ a.slot_time }}</td><td>{{ a.doctor_name }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p style="font-size:12px;color:#8a97a4;">No appointments booked yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

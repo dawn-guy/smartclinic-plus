@@ -1,0 +1,26 @@
+{% extends "shell.html" %}
+{% block content %}
+<div class="breadcrumb">Home &nbsp;&#8250;&nbsp; <b>Operational Dashboard</b></div>
+<div class="grid2">
+  <div class="card">
+    <h2>Patient flow &mdash; computed live from real bookings</h2>
+    <table>
+      <tr><th>Metric</th><th>Value</th></tr>
+      <tr><td>Total slots today</td><td>{{ stats.total_slots }}</td></tr>
+      <tr><td>Booked</td><td>{{ stats.booked_slots }}</td></tr>
+      <tr><td>Open</td><td>{{ stats.open_slots }}</td></tr>
+      <tr><td>Prescriptions on file</td><td>{{ stats.prescriptions }}</td></tr>
+    </table>
+    <div class="notice" style="margin-top:14px;">These numbers come from a real SQL query over the <code>slots</code> and <code>prescriptions</code> tables (FR-09) &mdash; book another slot as patient1 and refresh this page to watch the count change.</div>
+  </div>
+  <div class="card">
+    <h2>Doctor utilisation today</h2>
+    <div class="bar-row">
+      <div class="bar-label">{{ stats.doctor_name }}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:{{ stats.utilisation }}%"></div></div>
+      <div style="width:60px;text-align:right;">{{ stats.utilisation }}%</div>
+    </div>
+    <div class="warn" style="margin-top:14px;">Predictive staffing insights (FR-10) are scoped as Won't-have-now for this release.</div>
+  </div>
+</div>
+{% endblock %}

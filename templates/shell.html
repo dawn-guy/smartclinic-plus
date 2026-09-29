@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app">
+  <div class="sidebar">
+    <div class="logo">Smart<span>Clinic+</span></div>
+    <nav>
+      {% for item in nav_items %}
+      <a href="{{ item.url }}" class="{{ 'active' if item.id == active else '' }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+    <a class="logout" href="{{ url_for('logout') }}">&larr; Sign out</a>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <h1>{{ page_title }}</h1>
+      <div class="user"><div class="avatar">{{ initials }}</div><span>{{ display_name }}</span></div>
+    </div>
+    <div class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="flash {{ 'error' if category == 'error' else '' }}">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
